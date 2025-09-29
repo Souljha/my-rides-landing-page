@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickRide - Your City, Your Ride</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              primary: {
+                DEFAULT: '#FF8C00', // Dark Orange
+                dark: '#D97706',   // Amber 600
+              },
+              secondary: '#1F2937', // Gray 800
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1"
+  }
+}
+</script>
+<script async type='module' src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
+<style>
+  /* Hide Zapier branding */
+  zapier-interfaces-chatbot-embed::part(footer),
+  zapier-interfaces-chatbot-embed [data-testid*="footer"],
+  zapier-interfaces-chatbot-embed [data-testid*="branding"],
+  zapier-interfaces-chatbot-embed [class*="footer"],
+  zapier-interfaces-chatbot-embed [class*="branding"],
+  zapier-interfaces-chatbot-embed [class*="powered"],
+  zapier-interfaces-chatbot-embed .footer,
+  zapier-interfaces-chatbot-embed .branding,
+  zapier-interfaces-chatbot-embed .powered-by {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* More aggressive hiding approaches */
+  zapier-interfaces-chatbot-embed iframe {
+    margin-bottom: -40px !important;
+  }
+
+  /* Target any text containing "Built on" or "Zapier" */
+  zapier-interfaces-chatbot-embed [aria-label*="Built"],
+  zapier-interfaces-chatbot-embed [title*="Built"],
+  zapier-interfaces-chatbot-embed [alt*="Built"] {
+    display: none !important;
+  }
+</style>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-gray-50">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
