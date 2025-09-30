@@ -23,7 +23,7 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <a href="#" className="flex items-center">
-            <img src="./components/icons/My_Rides_logo.png" alt="My Rides Logo" className="h-12 w-auto" />
+            <img src="/images/My_Rides_logo.png" alt="My Rides Logo" className="h-12 w-auto" />
           </a>
           <nav className="hidden md:flex items-center space-x-8">
             <a href="#features" className="text-gray-600 hover:text-primary transition-colors">Features</a>

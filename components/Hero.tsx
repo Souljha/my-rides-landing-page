@@ -5,7 +5,7 @@ const Hero: React.FC = () => {
   return (
     <section 
       className="relative bg-cover bg-center h-screen flex items-center justify-center text-white" 
-      style={{ backgroundImage: "url('./components/icons/Hero_bg.png')" }}
+      style={{ backgroundImage: "url('/images/Hero_bg.png')" }}
     >
       <div className="absolute inset-0 bg-black opacity-50"></div>
       <div className="relative z-10 text-center px-4">
