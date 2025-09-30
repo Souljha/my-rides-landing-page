@@ -27,7 +27,7 @@ const Header: React.FC = () => {
           </a>
           <nav className="hidden md:flex items-center space-x-8">
             <a href="#features" className="text-gray-600 hover:text-primary transition-colors">Features</a>
-            <a href="#about" className="text-gray-600 hover:text-primary transition-colors">About Us</a>
+            <a href="https://myrides.co.za/home-1" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-primary transition-colors">About Us</a>
             <a href="#contact" className="bg-secondary text-white px-4 py-2 rounded-full hover:bg-gray-900 transition-colors font-semibold">
               Contact Us
             </a>

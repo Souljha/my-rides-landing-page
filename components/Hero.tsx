@@ -23,7 +23,9 @@ const Hero: React.FC = () => {
             Book a Ride
           </a>
           <a
-            href="#"
+            href="https://myrides.co.za/home-1"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-white hover:text-secondary transition-all"
           >
             Learn More
