@@ -1,0 +1,13 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://aistudiocdn.com https://interfaces.zapier.com https://api.zapier.com https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://interfaces.zapier.com https://api.zapier.com https://staging.zapier.com https://www.google-analytics.com https://analytics.google.com https://api.loom.com https://www.tiktok.com; style-src 'self' 'unsafe-inline' https://rsms.me https://cdn.tailwindcss.com; img-src 'self' data: https: blob:; font-src 'self' data: https://rsms.me; frame-src 'self' https://interfaces.zapier.com https://www.loom.com https://www.tiktok.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'"
+        }
+      ]
+    }
+  ]
+}
