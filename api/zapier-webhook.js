@@ -1,6 +1,53 @@
 // Vercel API Route for Zapier Webhook
 // This file will be accessible at: https://your-site.vercel.app/api/zapier-webhook
 
+// Vapi Configuration
+const VAPI_API_KEY = '720168a0-f369-4355-9f7e-242799b4e268';
+const VAPI_ASSISTANT_ID = '15cd0540-2ea7-4981-b125-6c24f1bbb411';
+const VAPI_PHONE_NUMBER = '+27872502639';
+
+// Function to create a Vapi phone call
+async function createVapiCall(customerData) {
+  try {
+    const response = await fetch('https://api.vapi.ai/call/phone', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${VAPI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        assistantId: VAPI_ASSISTANT_ID,
+        phoneNumberId: VAPI_PHONE_NUMBER,
+        customer: {
+          number: customerData.phone,
+          name: customerData.name,
+          email: customerData.email || null,
+        },
+        // Optional: Pass additional context to the assistant
+        assistantOverrides: {
+          variableValues: {
+            customer_name: customerData.name,
+            interested_service: customerData.interested_service || 'Not specified',
+            preferred_time: customerData.preferred_time || 'Not specified',
+            message: customerData.message || 'No message provided',
+          }
+        }
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(`Vapi API error: ${JSON.stringify(result)}`);
+    }
+
+    return result;
+  } catch (error) {
+    console.error('❌ Vapi call creation failed:', error);
+    throw error;
+  }
+}
+
 // Simple webhook handler for Vercel
 export default async function handler(req, res) {
   // Enable CORS
@@ -33,8 +80,13 @@ export default async function handler(req, res) {
       });
     }
 
-    // Clean phone number
-    const cleanPhone = data.phone.replace(/[^\d+]/g, '');
+    // Clean phone number - ensure it has country code
+    let cleanPhone = data.phone.replace(/[^\d+]/g, '');
+
+    // If phone doesn't start with +, assume South African number
+    if (!cleanPhone.startsWith('+')) {
+      cleanPhone = '+27' + cleanPhone;
+    }
 
     // Log the customer info
     const customerData = {
@@ -49,27 +101,22 @@ export default async function handler(req, res) {
 
     console.log('✅ Customer data processed:', customerData);
 
-    // In production, this is where you would:
-    // 1. Save to database
-    // 2. Schedule Vapi callback
-    // 3. Send notifications
+    // Create Vapi phone call
+    console.log(`📞 Initiating Vapi call to ${customerData.name} at ${cleanPhone}...`);
 
-    // For now, we'll simulate the callback scheduling
-    console.log(`🕐 Scheduling Vapi callback for ${data.name} in 2 minutes...`);
+    const vapiCall = await createVapiCall(customerData);
 
-    // Simulate delay (in production, use a proper job queue)
-    setTimeout(() => {
-      console.log(`📞 Would call Vapi for ${data.name} at ${cleanPhone}`);
-      // This is where the actual Vapi API call would happen
-    }, 2 * 60 * 1000); // 2 minutes
+    console.log('✅ Vapi call created successfully:', vapiCall);
 
     return res.status(200).json({
       success: true,
-      message: `Callback scheduled for ${data.name}`,
+      message: `Call initiated for ${data.name}`,
       data: {
         name: data.name,
         phone: cleanPhone,
-        scheduledFor: new Date(Date.now() + 2 * 60 * 1000).toISOString()
+        callId: vapiCall.id,
+        status: vapiCall.status,
+        timestamp: new Date().toISOString()
       }
     });
 
@@ -77,7 +124,8 @@ export default async function handler(req, res) {
     console.error('❌ Webhook error:', error);
     return res.status(500).json({
       success: false,
-      message: 'Internal server error'
+      message: 'Internal server error',
+      error: error.message
     });
   }
 }
