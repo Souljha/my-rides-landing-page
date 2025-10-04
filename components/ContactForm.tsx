@@ -40,24 +40,52 @@ const ContactForm: React.FC = () => {
       return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) {
         return;
     }
-    
+
     setStatus('submitting');
     console.log('Form data submitted:', formData);
 
-    // Simulate API call
-    setTimeout(() => {
-      setStatus('success');
-      // Reset form after a delay
-      setTimeout(() => {
+    try {
+      // Call the Vapi webhook to initiate phone call
+      const response = await fetch('/api/zapier-webhook', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: `${formData.name} ${formData.surname}`,
+          phone: formData.contactNumber,
+          email: formData.email,
+          interested_service: 'General Inquiry',
+          preferred_time: 'As soon as possible',
+          message: 'Contact form submission from landing page'
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        console.log('Vapi call initiated:', result);
+        setStatus('success');
+        // Reset form after a delay
+        setTimeout(() => {
           setStatus('idle');
           setFormData({ name: '', surname: '', email: '', contactNumber: '' });
-      }, 3000);
-    }, 1500);
+        }, 5000);
+      } else {
+        console.error('Failed to initiate call:', result);
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 3000);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 3000);
+    }
   };
 
   return (
@@ -75,7 +103,13 @@ const ContactForm: React.FC = () => {
             <div className="text-center p-8">
                 <svg className="w-16 h-16 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
               <h3 className="text-2xl font-bold text-gray-800 mt-4">Thank You!</h3>
-              <p className="text-gray-600 mt-2">Your message has been sent successfully. We will be in touch shortly.</p>
+              <p className="text-gray-600 mt-2">Riley from My Rides will call you shortly to assist with your inquiry!</p>
+            </div>
+          ) : status === 'error' ? (
+            <div className="text-center p-8">
+                <svg className="w-16 h-16 mx-auto text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <h3 className="text-2xl font-bold text-gray-800 mt-4">Oops!</h3>
+              <p className="text-gray-600 mt-2">Something went wrong. Please try again or contact us directly.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate>
