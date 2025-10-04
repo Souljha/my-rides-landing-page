@@ -4,7 +4,7 @@
 // Vapi Configuration
 const VAPI_API_KEY = '720168a0-f369-4355-9f7e-242799b4e268';
 const VAPI_ASSISTANT_ID = '15cd0540-2ea7-4981-b125-6c24f1bbb411';
-const VAPI_PHONE_NUMBER = '+27872502639';
+const VAPI_PHONE_NUMBER_ID = '0e0a14cf-c747-44df-add1-3d6a3c3e409c';
 
 // Function to create a Vapi phone call
 async function createVapiCall(customerData) {
@@ -17,7 +17,7 @@ async function createVapiCall(customerData) {
       },
       body: JSON.stringify({
         assistantId: VAPI_ASSISTANT_ID,
-        phoneNumberId: VAPI_PHONE_NUMBER,
+        phoneNumberId: VAPI_PHONE_NUMBER_ID,
         customer: {
           number: customerData.phone,
           name: customerData.name,
