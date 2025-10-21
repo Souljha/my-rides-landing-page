@@ -3,7 +3,7 @@
 
 // Vapi Configuration
 const VAPI_API_KEY = '720168a0-f369-4355-9f7e-242799b4e268';
-const VAPI_ASSISTANT_ID = '15cd0540-2ea7-4981-b125-6c24f1bbb411';
+const VAPI_ASSISTANT_ID = '23ed55e3-0ba4-4b9f-87f2-80c539c72b19';
 const VAPI_PHONE_NUMBER_ID = '0e0a14cf-c747-44df-add1-3d6a3c3e409c';
 
 // Function to create a Vapi phone call

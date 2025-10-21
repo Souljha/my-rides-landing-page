@@ -76,9 +76,10 @@ Keep your tone friendly, helpful, and solution-oriented. You represent a trusted
 
 ## Vapi Configuration Details
 
-- **Assistant ID:** 15cd0540-2ea7-4981-b125-6c24f1bbb411
+- **Assistant ID:** 23ed55e3-0ba4-4b9f-87f2-80c539c72b19
 - **API Key:** 720168a0-f369-4355-9f7e-242799b4e268
 - **Phone Number:** +27872502639
-- **Assistant Name:** Riley
+- **Phone Number ID:** 0e0a14cf-c747-44df-add1-3d6a3c3e409c
+- **Assistant Name:** Riley My Rides Agent
 - **Provider:** OpenAI
 - **Model:** GPT 4o Cluster
