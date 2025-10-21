@@ -6,6 +6,7 @@ type FormState = {
   surname: string;
   email: string;
   contactNumber: string;
+  message: string;
 };
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
@@ -16,11 +17,12 @@ const ContactForm: React.FC = () => {
     surname: '',
     email: '',
     contactNumber: '',
+    message: '',
   });
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errors, setErrors] = useState<Partial<FormState>>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
@@ -62,7 +64,7 @@ const ContactForm: React.FC = () => {
           email: formData.email,
           interested_service: 'General Inquiry',
           preferred_time: 'As soon as possible',
-          message: 'Contact form submission from landing page'
+          message: formData.message || 'No message provided'
         })
       });
 
@@ -74,7 +76,7 @@ const ContactForm: React.FC = () => {
         // Reset form after a delay
         setTimeout(() => {
           setStatus('idle');
-          setFormData({ name: '', surname: '', email: '', contactNumber: '' });
+          setFormData({ name: '', surname: '', email: '', contactNumber: '', message: '' });
         }, 5000);
       } else {
         console.error('Failed to initiate call:', result);
@@ -130,10 +132,22 @@ const ContactForm: React.FC = () => {
                 <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-primary-dark focus:border-primary-dark`} required />
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
-              <div className="mb-8">
+              <div className="mb-6">
                 <label htmlFor="contactNumber" className="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
                 <input type="tel" id="contactNumber" name="contactNumber" value={formData.contactNumber} onChange={handleChange} className={`w-full px-4 py-2 border ${errors.contactNumber ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-primary-dark focus:border-primary-dark`} required />
                 {errors.contactNumber && <p className="text-red-500 text-xs mt-1">{errors.contactNumber}</p>}
+              </div>
+              <div className="mb-8">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message (Optional)</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary-dark focus:border-primary-dark resize-none"
+                  placeholder="Tell us about your inquiry or any specific questions you have..."
+                ></textarea>
               </div>
               <div>
                 <button 
