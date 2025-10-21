@@ -6,7 +6,6 @@ import Features from './components/Features';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import ZapierChatbot from './components/ZapierChatbot';
-import ZapierVapiTest from './components/ZapierVapiTest';
 import { vapiService } from './services/vapiService';
 
 const App: React.FC = () => {
@@ -20,7 +19,6 @@ const App: React.FC = () => {
       </main>
       <Footer />
       <ZapierChatbot />
-      <ZapierVapiTest />
     </div>
   );
 };
